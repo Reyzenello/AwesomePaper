@@ -1,0 +1,33 @@
+name: Automate Paper Review
+
+on:
+  schedule:
+    - cron: '0 */4 * * *' # Runs every 4 hours
+  workflow_dispatch:
+
+jobs:
+  fetch_and_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install requests feedparser
+
+    - name: Fetch and save papers
+      run: python fetch_papers.py
+
+    - name: Commit changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add papers/
+        git commit -m "Add new papers and review templates"
+        git push
