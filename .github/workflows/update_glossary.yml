@@ -22,7 +22,7 @@ jobs:
       run: pip install requests beautifulsoup4
 
     - name: Fetch and update glossary terms
-      run: .github/python fetch_glossary_terms.py
+      run: python fetch_glossary_terms.py
 
     - name: Commit changes
       run: |
