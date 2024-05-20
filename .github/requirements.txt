@@ -1,2 +1,2 @@
 requests
-os
+beautifulsoup4
