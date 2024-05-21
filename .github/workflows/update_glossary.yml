@@ -33,6 +33,6 @@ jobs:
       
     - name: Push changes
       env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       run: |
           git push https://github-actions:${{ secrets.GH_PAT }}@github.com/Reyzenello/AwesomePaper.git
