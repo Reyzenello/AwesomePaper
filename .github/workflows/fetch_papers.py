@@ -46,15 +46,21 @@ def save_paper(paper_data, paper_id, title, authors, summary):
 
 def main():
     start = 0
-    while True:
+    fetched_papers_count = 0
+    max_papers = 5  # Maximum number of papers to fetch and save
+
+    while fetched_papers_count < max_papers:
         print(f"Fetching papers {start} to {start + RESULTS_PER_CALL}...")
         feed = fetch_papers(QUERY, start=start)
         for entry in feed.entries:
+            if fetched_papers_count >= max_papers:
+                break
             paper_id = entry.id.split('/abs/')[-1]
             title = entry.title
             authors = [author.name for author in entry.authors]
             summary = entry.summary
             save_paper(entry, paper_id, title, authors, summary)
+            fetched_papers_count += 1
         start += RESULTS_PER_CALL
         time.sleep(3)  # Be kind to the arXiv API
 
