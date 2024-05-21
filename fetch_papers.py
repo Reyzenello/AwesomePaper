@@ -6,7 +6,7 @@ import feedparser
 # Configuration
 ARXIV_API_URL = "http://export.arxiv.org/api/query?search_query="
 QUERY = "machine learning"
-RESULTS_PER_CALL = 5
+RESULTS_PER_CALL = 1
 OUTPUT_DIR = "papers/"
 
 # Ensure output directory exists
@@ -54,7 +54,7 @@ def main():
         authors = [author.name for author in entry.authors]
         summary = entry.summary
         save_paper(entry, paper_id, title, authors, summary)
-    print("Fetched 5 papers. Stopping.")
+    print("Fetched 1 paper")
     # No need to increment start or sleep, as we are fetching only once.
 
 if __name__ == "__main__":
