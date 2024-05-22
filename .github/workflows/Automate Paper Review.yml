@@ -29,7 +29,7 @@ jobs:
     - name: Run paper fetcher
       run: python fetch_arxiv_papers.py
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_PATH }}
 
     - name: Show changes
       run: git diff papers/
@@ -43,4 +43,4 @@ jobs:
         git pull --rebase
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_PATH }}
