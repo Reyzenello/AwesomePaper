@@ -2,11 +2,14 @@ name: Automate Paper Review
 
 on:
   schedule:
-    - cron: '0 */4 * * *' # Runs every 4 hours
-  workflow_dispatch:
+    # Runs every hour
+    - cron: "0 * * * *"
+  push:
+    branches:
+      - main
 
 jobs:
-  fetch_and_commit:
+  fetch-and-commit:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,15 +22,25 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: pip install requests feedparser
-
-    - name: Fetch and save papers
-      run: python fetch_papers.py
-
-    - name: Commit changes
       run: |
-        git config --global user.name 'Reyzenello'
-        git config --global user.email 'riccardobruzzese98@gmail.com'
+        python -m pip install --upgrade pip
+        pip install requests feedparser
+
+    - name: Run paper fetcher
+      run: python fetch_arxiv_papers.py
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Show changes
+      run: git diff papers/
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "Reyzenello"
+        git config --global user.email "riccardobruzzese98@gmail.com"
         git add papers/
-        git commit -m "Add new papers and review templates"
+        git commit -m "Add new papers and review templates $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git pull --rebase
         git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
