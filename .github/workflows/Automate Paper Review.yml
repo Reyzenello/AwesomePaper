@@ -27,7 +27,7 @@ jobs:
         pip install requests feedparser
 
     - name: Run paper fetcher
-      run: python fetch_arxiv_papers.py
+      run: python fetch_papers.py
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PATH }}
 
